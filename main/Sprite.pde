@@ -16,24 +16,31 @@ public class AnimatedSprite extends GameObject {
   int currentFrame;
   boolean playing;
 
+  // framerate handling
+  int framerate;
+  int lastUpdateTime;
+  int interval;
+
   public AnimatedSprite(ArrayList<String> filePaths) {
     super();
-    this.imgs = new ArrayList<PImage>();
+    this.setDefaults();
 
     for (String path : filePaths) {
       this.imgs.add(loadImage(path));
     }
-
-    this.currentFrame = 0;
-    this.playing = false;
   }
 
   public AnimatedSprite(String filePath) {
     super();
-    this.imgs = new ArrayList<PImage>();
+    this.setDefaults();
     this.addFrame(filePath);
+  }
+
+  private void setDefaults() {
+    this.imgs = new ArrayList<PImage>();
     this.currentFrame = 0;
     this.playing = false;
+    this.setFramerate(int(frameRate));
   }
 
   public AnimatedSprite addFrame(String filePath) {
@@ -53,6 +60,7 @@ public class AnimatedSprite extends GameObject {
 
   public AnimatedSprite play() {
     this.playing = true;
+    this.lastUpdateTime = millis();
     return this;
   }
 
@@ -67,10 +75,23 @@ public class AnimatedSprite extends GameObject {
     return this;
   }
 
+  public AnimatedSprite setFramerate(int framerate) {
+    this.framerate = framerate;
+    this.interval = 1000 / this.framerate;
+    return this;
+  }
+
+  private boolean isNowAfterLastUpdatedTime() {
+    return millis() - this.lastUpdateTime >= interval;
+  }
+
   void draw() {
     image(this.imgs.get(currentFrame), this.position.x, this.position.y, this.scale.x, this.scale.y);
 
     // loop animation
-    if (this.playing) this.currentFrame = (this.currentFrame + 1) % this.imgs.size();
+    if (this.playing && isNowAfterLastUpdatedTime()) {
+      this.currentFrame = (this.currentFrame + 1) % this.imgs.size();
+      this.lastUpdateTime = millis();
+    }
   }
 }
