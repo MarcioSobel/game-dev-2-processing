@@ -8,8 +8,8 @@ public class Game {
   void process() {
     for (GameObject obj : gameObjects) {
       obj.updateChildren();
-      obj.draw();
       obj.update();
+      obj.draw();
     }
   }
 

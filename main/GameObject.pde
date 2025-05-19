@@ -50,13 +50,13 @@ public class GameObject {
   void updateChildren() {
     for (GameObject obj : children) {
       obj.updateChildren();
-      obj.draw();
       obj.update();
+      obj.draw();
     }
   }
-  
+
   protected void updatePosition() {
-   this.setPosition(position.x, position.y); 
+    this.setPosition(position.x, position.y);
   }
 
   protected float calculateYFromAnchor(float y) {
@@ -93,9 +93,13 @@ public class GameObject {
     }
   }
 
+  // draw is where the the images and shapes of the game will be rendered.
+  // this method should not be used to update values, only use them.
   void draw() {
   }
 
+  // update is where the game logic is handled -- keypresses, time events, collisions.
+  // no drawing methods should be used here.
   void update() {
   }
 }
