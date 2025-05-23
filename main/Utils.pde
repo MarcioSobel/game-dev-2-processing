@@ -1,4 +1,6 @@
 public static class Utils {
+  static int defaultFontSize = 10;
+  
   // clamp will make sure the value is at least min and at most max
   public static int clamp(int x, int min, int max) {
     return Math.max(min, Math.min(max, x));

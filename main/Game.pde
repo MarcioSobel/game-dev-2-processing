@@ -11,6 +11,8 @@ public class Game {
       obj.update();
       obj.draw();
     }
+    
+    textSize(Utils.defaultFontSize);
   }
 
   Game addObject(GameObject obj) {
