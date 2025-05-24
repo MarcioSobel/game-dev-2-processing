@@ -1,18 +1,20 @@
 public class Game {
   ArrayList<GameObject> gameObjects;
 
-  // when calling addObject(), the process() might be running,
-  // giving an ConcurrentModificationException.
-  // creating a separate list to be added later will fix the issue.
+  // when calling addObject() or removeObject(), the process() might
+  // be running, giving an ConcurrentModificationException.
+  // creating a separate list to be processed before will fix the issue.
   private ArrayList<GameObject> pendingAdditions;
-
-  // same as pendingAdditions, but for removing objects.
   private ArrayList<GameObject> pendingRemovals;
+  
+  public boolean debug;
 
   public Game() {
     this.gameObjects = new ArrayList<GameObject>();
     this.pendingAdditions = new ArrayList<GameObject>();
     this.pendingRemovals = new ArrayList<GameObject>();
+    this.debug = false;
+    
     Globals.game = this;
   }
 
