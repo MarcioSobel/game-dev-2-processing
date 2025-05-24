@@ -6,3 +6,7 @@ public static class Utils {
     return Math.max(min, Math.min(max, x));
   }
 }
+
+public static class Globals {
+   static Game game; 
+}
