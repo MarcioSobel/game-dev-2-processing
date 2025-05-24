@@ -33,6 +33,9 @@ public class GameObject {
     return this;
   }
 
+  // A GameObject should ALWAYS update their position through setPosition();
+  // As it will update their original position and offset the position
+  // to their parents.
   GameObject setPosition(float x, float y) {
     originalPosition.set(x, y);
     position = originalPosition.copy();
@@ -46,7 +49,6 @@ public class GameObject {
   }
 
   protected void updateChildPosition() {
-    print(position + "\n");
     for (GameObject child : children) {
       PVector offset = position.copy();
       offset.sub(child.originalPosition);
