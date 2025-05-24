@@ -16,9 +16,13 @@ public class GameObject {
   ArrayList<GameObject> children;
   AnchorPosition anchor;
 
+  // used to update position based on parent
+  protected PVector originalPosition;
+
   public GameObject() {
     this.scale = new PVector(1, 1);
     this.position = new PVector(0, 0);
+    this.originalPosition =  new PVector(0, 0);
     this.children = new ArrayList<GameObject>();
     this.anchor = AnchorPosition.TOP_LEFT;
   }
@@ -30,9 +34,27 @@ public class GameObject {
   }
 
   GameObject setPosition(float x, float y) {
-    position.x = calculateXFromAnchor(x);
-    position.y = calculateYFromAnchor(y);
+    originalPosition.set(x, y);
+    position = originalPosition.copy();
+
+    updateChildPosition();
     return this;
+  }
+
+  GameObject setPosition(PVector pos) {
+    return this.setPosition(pos.x, pos.y);
+  }
+
+  protected void updateChildPosition() {
+    print(position + "\n");
+    for (GameObject child : children) {
+      PVector offset = position.copy();
+      offset.sub(child.originalPosition);
+      offset = child.calculatePositionFromAnchor(offset);
+      child.position = offset;
+
+      child.updateChildPosition();
+    }
   }
 
   GameObject setScale(float x, float y) {
@@ -44,19 +66,28 @@ public class GameObject {
 
   GameObject addChild(GameObject obj) {
     children.add(obj);
+    obj.updatePosition();
     return this;
   }
 
   void updateChildren() {
     for (GameObject obj : children) {
-      obj.updateChildren();
       obj.update();
+      obj.updateChildren();
+      obj.updateChildPosition();
       obj.draw();
     }
   }
 
   protected void updatePosition() {
-    this.setPosition(position.x, position.y);
+    this.setPosition(originalPosition);
+  }
+
+  protected PVector calculatePositionFromAnchor(PVector pos) {
+    PVector v = pos.copy();
+    v.x = calculateXFromAnchor(v.x);
+    v.y = calculateYFromAnchor(v.y);
+    return v;
   }
 
   protected float calculateYFromAnchor(float y) {
@@ -64,7 +95,7 @@ public class GameObject {
     case MIDDLE_LEFT:
     case MIDDLE_CENTER:
     case MIDDLE_RIGHT:
-      return y - scale.y / 2;
+      return y - floor(scale.y / 2);
 
     case BOTTOM_LEFT:
     case BOTTOM_CENTER:
@@ -81,7 +112,7 @@ public class GameObject {
     case TOP_CENTER:
     case MIDDLE_CENTER:
     case BOTTOM_CENTER:
-      return x - scale.x / 2;
+      return x - floor(scale.x / 2);
 
     case TOP_RIGHT:
     case MIDDLE_RIGHT:

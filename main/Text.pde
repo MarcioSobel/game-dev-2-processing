@@ -47,8 +47,7 @@ public class Text extends GameObject {
   }
   
   private void updateTextAlignment() {
-    position.x = calculateXFromAnchor(position.x);
-    position.y = calculateYFromAnchor(position.y); 
+    position = originalPosition.copy();
   }
 
   public void draw() {
@@ -63,8 +62,8 @@ public class Text extends GameObject {
   
   
   Text setPosition(float x, float y) {
-    position.x = calculateXFromAnchor(x);
-    position.y = calculateYFromAnchor(y);
+    originalPosition.set(x, y);
+    position = originalPosition.copy();
     this.calculateSizeFromContent();
     return this;
   }
@@ -74,12 +73,12 @@ public class Text extends GameObject {
     case MIDDLE_LEFT:
     case MIDDLE_CENTER:
     case MIDDLE_RIGHT:
-      return y - (textBoxSize.y / 4);
+      return y - textBoxSize.y / 2;
 
     case BOTTOM_LEFT:
     case BOTTOM_CENTER:
     case BOTTOM_RIGHT:
-      return y - textBoxSize.y / 2;
+      return y - textBoxSize.y;
 
     default:
       return y;
@@ -91,12 +90,12 @@ public class Text extends GameObject {
     case TOP_CENTER:
     case MIDDLE_CENTER:
     case BOTTOM_CENTER:
-      return x - textBoxSize.x / 4;
+      return x - textBoxSize.x / 2;
 
     case TOP_RIGHT:
     case MIDDLE_RIGHT:
     case BOTTOM_RIGHT:
-      return x - textBoxSize.x / 2;
+      return x - textBoxSize.x;
 
     default:
       return x;
