@@ -33,6 +33,12 @@ public class GameObject {
     return this;
   }
 
+  GameObject setAnchor(AnchorPosition anchor, GameObject parent) {
+    GameObject obj = this.setAnchor(anchor);
+    parent.updateChildPosition();
+    return obj;
+  }
+
   // A GameObject should ALWAYS update their position through setPosition();
   // As it will update their original position and offset the position
   // to their parents.
@@ -44,8 +50,20 @@ public class GameObject {
     return this;
   }
 
+  GameObject setPosition(float x, float y, GameObject parent) {
+    this.setPosition(x, y);
+    parent.updateChildPosition();
+    return this;
+  }
+
   GameObject setPosition(PVector pos) {
     return this.setPosition(pos.x, pos.y);
+  }
+
+  GameObject setPosition(PVector pos, GameObject parent) {
+    this.setPosition(pos);
+    parent.updateChildPosition();
+    return this;
   }
 
   protected void updateChildPosition() {
@@ -63,6 +81,12 @@ public class GameObject {
     scale.x = x;
     scale.y = y;
     updatePosition();
+    return this;
+  }
+
+  GameObject setScale(float x, float y, GameObject parent) {
+    this.setScale(x, y);
+    parent.updateChildPosition();
     return this;
   }
 
