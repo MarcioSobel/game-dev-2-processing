@@ -9,5 +9,6 @@ public static class Utils {
 }
 
 public static class Globals {
-   static Game game; 
+   static Game game;
+   static GameScene currentScene;
 }

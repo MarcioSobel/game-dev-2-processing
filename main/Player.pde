@@ -38,7 +38,7 @@ public class Player extends GameObject {
   private Bullet addBullet() {
     this.bullet = new Bullet(this.position.copy());
     bullet.setAnchor(AnchorPosition.MIDDLE_CENTER);
-    Globals.game.addObject(bullet);
+    Globals.currentScene.addObject(bullet);
     return bullet;
   }
 

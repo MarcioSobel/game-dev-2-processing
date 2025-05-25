@@ -31,7 +31,7 @@ public class Enemy extends GameObject {
     
     boolean collided = false;
     
-    for (GameObject obj : Globals.game.gameObjects) {
+    for (GameObject obj : Globals.currentScene.objects) {
        if (!(obj instanceof Player)) continue;
        
        player = (Player) obj;

@@ -8,16 +8,24 @@ void draw() {
 void setup() {
   size(800, 800);
   frameRate(60);
-
-  game = new Game();
   
+  game = new Game();
+  GameScene mainScene = newMainScene();
+  game.setScene(mainScene);
+}
+
+GameScene newMainScene() {
+  GameScene mainScene = new GameScene();
+
   Sprite background = new Sprite("background.png");
   background.setScale(width, height);
-  game.addObject(background);
+  mainScene.addObject(background);
 
   Player player = new Player(width / 2, height - 60);
-  game.addObject(player);
-  
-  Enemies enemies = new Enemies(32);
-  game.addObject(enemies);
+  mainScene.addObject(player);
+
+  Enemies enemies = new Enemies(16);
+  mainScene.addObject(enemies);
+
+  return mainScene;
 }

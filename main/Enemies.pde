@@ -71,11 +71,14 @@ public class Enemies extends GameObject {
     if (!collided) return;
 
     // do something when collided
-    print("morreu");
+  }
+
+  public void removeEnemy(Enemy enemy) {
+    this.children.remove(enemy);
   }
 
   private Optional<Player> getPlayer() {
-    for (GameObject obj : Globals.game.gameObjects) {
+    for (GameObject obj : Globals.currentScene.objects) {
       if (obj instanceof Player) return Optional.of((Player) obj);
     }
 
