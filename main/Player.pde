@@ -7,14 +7,19 @@ public class Player extends GameObject {
 
   // to move player in steps
   private int lastMovedTime;
+  private int moveInterval;
 
   public Player(int initialPositionX, int initialPositionY) {
     super();
+    this.moveInterval = 150;
+    
     this.setScale(100, 100);
 
     this.addSprite();
-    this.addBullet();
     this.addCollision();
+
+    this.bullet = new Bullet();
+    bullet.active = false;
 
     this.setPosition(initialPositionX, initialPositionY);
     this.setAnchor(AnchorPosition.MIDDLE_CENTER);
@@ -80,7 +85,7 @@ public class Player extends GameObject {
   // the player should move in steps, not in a fluid motion
   // so we say we can move it at most once per quarter of a second.
   private boolean canMove() {
-    return millis() - this.lastMovedTime >= 250;
+    return millis() - this.lastMovedTime >= moveInterval;
   }
 
   private void moveLeft() {
