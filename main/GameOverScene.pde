@@ -1,14 +1,14 @@
 import java.util.HashMap;
 
-public class MenuScene extends GameScene {
-  public MenuScene() {
+public class GameOverScene extends GameScene {
+  public GameOverScene() {
     super();
     this.addTitle();
     this.addMenu();
   }
 
   private void addTitle() {
-    Text gameName = new Text("invasores do mal");
+    Text gameName = new Text("Game Over!");
     gameName
       .setFontSize(96)
       .setPosition(0, 120)
@@ -19,28 +19,29 @@ public class MenuScene extends GameScene {
   }
 
   private void addMenu() {
-    MainMenu menu = new MainMenu();
+    GameOverMenu menu = new GameOverMenu();
     this.addObject(menu);
   }
 }
 
-private class MainMenu extends GameObject {
+private class GameOverMenu extends GameObject {
   HashMap<Integer, Text> options;
   int selectedOption = 0;
   int optionAmount = 0;
 
-  public MainMenu() {
+  public GameOverMenu() {
     super();
     this.options = new HashMap<Integer, Text>();
     this.setPosition(width / 2, height / 2);
     this.setScale(0, 0);
 
     this
-      .addOption("Start game")
+      .addOption("Go to main menu")
+      .addOption("Restart")
       .addOption("Exit game");
   }
 
-  public MainMenu addOption(String label) {
+  public GameOverMenu addOption(String label) {
     Text option = new Text(label).setFontSize(32);
     option.setPosition(scale.x, scale.y).setAnchor(AnchorPosition.MIDDLE_CENTER);
 
@@ -75,9 +76,12 @@ private class MainMenu extends GameObject {
   private void selectOption() {
     switch (selectedOption) {
     case 0:
-      Globals.game.setScene(new MainGameScene());
+      Globals.game.setScene(new MenuScene());
       break;
     case 1:
+      Globals.game.setScene(new MainGameScene());
+      break;
+    case 2:
       exit();
       break;
     }

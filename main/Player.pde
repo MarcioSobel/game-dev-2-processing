@@ -12,6 +12,7 @@ public class Player extends GameObject {
   public Player(int initialPositionX, int initialPositionY) {
     super();
     this.moveInterval = 150;
+    this.lastMovedTime = millis();
     
     this.setScale(100, 100);
 

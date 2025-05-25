@@ -70,11 +70,12 @@ public class Enemies extends GameObject {
 
     if (!collided) return;
 
-    // do something when collided
+    Globals.game.setScene(new GameOverScene());
   }
 
   public void removeEnemy(Enemy enemy) {
     this.children.remove(enemy);
+    if (this.children.size() == 0) Globals.game.setScene(new VictoryScene());
   }
 
   private Optional<Player> getPlayer() {
@@ -93,7 +94,7 @@ public class Enemies extends GameObject {
     PVector initialPos = this.position.copy();
     PVector pos = initialPos.copy();
     for (int i = 0; i < amount; ++i) {
-      for (int j = 0; j < columns; ++j) {
+      for (int j = 0; j < columns && i < amount; ++j) {
         addEnemy(pos.copy());
         pos.x -= enemyScale.x + gap.x;
         ++i;
