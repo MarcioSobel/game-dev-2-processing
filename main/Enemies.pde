@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class Enemies extends GameObject {
   private int lastUpdatedPosition;
   int horizontalOffset;
@@ -15,6 +17,7 @@ public class Enemies extends GameObject {
   }
 
   void update() {
+    checkCollisionWithPlayer();
     boolean shouldUpdateOffset = millis() - lastUpdatedPosition >= 1000;
     if (!shouldUpdateOffset) return;
 
@@ -47,6 +50,36 @@ public class Enemies extends GameObject {
 
   private void updateVerticalOffset() {
     this.setPosition(position.x, position.y + 30);
+  }
+
+  private void checkCollisionWithPlayer() {
+    Optional<Player> optionalPlayer = getPlayer();
+    if (optionalPlayer.isEmpty()) return;
+
+    Player player = optionalPlayer.get();
+
+    boolean collided = false;
+    for (GameObject child : children) {
+      Enemy enemy = (Enemy) child;
+
+      if (!enemy.checkCollisionWithPlayer(player)) continue;
+
+      collided = true;
+      break;
+    }
+
+    if (!collided) return;
+
+    // do something when collided
+    print("morreu");
+  }
+
+  private Optional<Player> getPlayer() {
+    for (GameObject obj : Globals.game.gameObjects) {
+      if (obj instanceof Player) return Optional.of((Player) obj);
+    }
+
+    return Optional.empty();
   }
 
   private void addEnemies(int amount) {

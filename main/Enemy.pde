@@ -26,4 +26,18 @@ public class Enemy extends GameObject {
 
     this.addChild(collision);
   }
+  
+  private boolean checkCollisionWithPlayer(Player player) {
+    
+    boolean collided = false;
+    
+    for (GameObject obj : Globals.game.gameObjects) {
+       if (!(obj instanceof Player)) continue;
+       
+       player = (Player) obj;
+       collided = player.collision.isColliding(this.collision);
+    }
+    
+    return collided;
+  }
 }
