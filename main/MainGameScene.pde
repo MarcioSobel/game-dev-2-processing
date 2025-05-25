@@ -7,7 +7,7 @@ public class MainGameScene extends GameScene {
     Player player = new Player(width / 2, height - 60);
     this.addObject(player);
 
-    Enemies enemies = new Enemies(16);
+    Enemies enemies = new Enemies(32);
     this.addObject(enemies);
   }
 }
