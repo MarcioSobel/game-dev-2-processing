@@ -15,6 +15,9 @@ void setup() {
   background.setScale(width, height);
   game.addObject(background);
 
-  Player player = new Player(width / 2, height - 40);
+  Player player = new Player(width / 2, height - 60);
   game.addObject(player);
+  
+  Enemies enemies = new Enemies(32);
+  game.addObject(enemies);
 }

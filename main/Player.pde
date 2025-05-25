@@ -1,25 +1,38 @@
 public class Player extends GameObject {
-  Sprite sprite;
   Bullet bullet;
+  Collision collision;
 
-  private int SPEED = 50;
+  private int SPEED = 60;
+  private int BOUNDING_PADDING = 20;
 
-  // to move player in steps of 1 second
+  // to move player in steps
   private int lastMovedTime;
 
   public Player(int initialPositionX, int initialPositionY) {
     super();
+    this.setScale(100, 100);
+
     this.addSprite();
     this.addBullet();
+    this.addCollision();
+
     this.setPosition(initialPositionX, initialPositionY);
+    this.setAnchor(AnchorPosition.MIDDLE_CENTER);
+    for (GameObject child : children) child.setAnchor(anchor, this);
   }
 
   private void addSprite() {
-    this.sprite = new Sprite("player.png");
-    sprite.setScale(100, 100);
-    sprite.setAnchor(AnchorPosition.MIDDLE_CENTER);
+    Sprite sprite = new Sprite("player.png");
+    sprite.setScale(scale.x, scale.y);
 
     this.addChild(sprite);
+  }
+
+  private void addCollision() {
+    this.collision = new Collision();
+    collision.setScale(scale.x / 2, scale.y / 4);
+
+    this.addChild(collision);
   }
 
   private Bullet addBullet() {
@@ -27,11 +40,6 @@ public class Player extends GameObject {
     bullet.setAnchor(AnchorPosition.MIDDLE_CENTER);
     Globals.game.addObject(bullet);
     return bullet;
-  }
-
-  Player setSprite(Sprite spr) {
-    this.sprite = spr;
-    return this;
   }
 
   void update() {
@@ -43,7 +51,7 @@ public class Player extends GameObject {
 
   private void handleShoot() {
     if (bullet.active) return;
-    
+
     switch (keyCode) {
     case UP:
       shoot();
@@ -76,12 +84,12 @@ public class Player extends GameObject {
   }
 
   private void moveLeft() {
-    if (position.x - SPEED <= 0) return;
+    if (position.x - (scale.x * 0.5) - SPEED <= BOUNDING_PADDING) return;
     setPosition(position.x - SPEED, position.y);
   }
 
   private void moveRight() {
-    if (position.x + SPEED >= width) return;
+    if (position.x + (scale.x * 0.5) + SPEED >= width - BOUNDING_PADDING) return;
     setPosition(position.x + SPEED, position.y);
   }
 }
