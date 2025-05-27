@@ -6,8 +6,9 @@ void draw() {
 }
 
 void setup() {
-  size(800, 800);
+  size(700, 700);
   frameRate(60);
+  Globals.processing = this;
 
   game = new Game();
   game.setScene(new MenuScene());

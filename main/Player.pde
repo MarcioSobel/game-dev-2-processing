@@ -1,6 +1,9 @@
+import processing.sound.*;
+
 public class Player extends GameObject {
   Bullet bullet;
   Collision collision;
+  SoundFile shootingSound;
 
   private int SPEED = 60;
   private int BOUNDING_PADDING = 20;
@@ -13,6 +16,7 @@ public class Player extends GameObject {
     super();
     this.moveInterval = 150;
     this.lastMovedTime = millis();
+    this.shootingSound = new SoundFile(Globals.processing, "shooting.mp3");
     
     this.setScale(100, 100);
 
@@ -81,6 +85,7 @@ public class Player extends GameObject {
 
   private void shoot() {
     this.addBullet();
+    this.shootingSound.play();
   }
 
   // the player should move in steps, not in a fluid motion
